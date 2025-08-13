@@ -1,0 +1,59 @@
+package com.example.dp.administration.service;
+
+import com.example.dp.administration.mapper.SchoolMapper;
+import com.example.dp.model.professor.entity.Professor;
+import com.example.dp.administration.dtos.SchoolClassDTO;
+import com.example.dp.model.schoolclass.entity.SchoolClass;
+import com.example.dp.model.schoolclass.service.SchoolClassService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
+
+@Component
+public class ManageSchoolClass {
+
+    private static final Logger logger = LogManager.getLogger(ManageSchoolClass.class);
+
+    private final SchoolClassService schoolClassService;
+    private final SchoolMapper schoolMapper;
+
+    @Autowired
+    public ManageSchoolClass(SchoolClassService schoolClassService, SchoolMapper schoolMapper) {
+        this.schoolClassService = schoolClassService;
+        this.schoolMapper = schoolMapper;
+    }
+
+    @Transactional
+    public SchoolClass save(SchoolClassDTO schoolClassDTO) {
+        logger.info("Creating school class with code {}", schoolClassDTO.getClassCode());
+        return schoolClassService.saveOrUpdate(schoolMapper.toCreateEntity(schoolClassDTO));
+    }
+
+    @Transactional
+    public SchoolClass update(Integer classId, SchoolClassDTO schoolClassDTO) {
+        logger.info("Updating school class with code {}", schoolClassDTO.getClassCode());
+        schoolClassService.findById(classId.longValue())
+                .orElseThrow(() -> new RuntimeException("School class not found"));
+        schoolClassDTO.setId(classId.longValue());
+        return schoolClassService.saveOrUpdate(schoolMapper.toUpdateEntity(schoolClassDTO));
+    }
+
+    public List<SchoolClass> findAll() {
+        return schoolClassService.findAll();
+    }
+
+    public void deleteById(Long id) {
+
+        schoolClassService.deleteById(id);
+        logger.info("Deleted school class with id {}", id);
+    }
+
+    public Set<Professor> getProfessorsByClassId(Long classId){
+        return schoolClassService.getProfessorsByClassId(classId);
+    }
+}

@@ -1,0 +1,283 @@
+openapi: 3.0.3
+info:
+  title: Professor and Class Management API
+  version: 1.0.0
+  description: API for managing professors, classes, and their relationships.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /professors:
+    post:
+      summary: Add a new professor
+      operationId: createProfessor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProfessorRequest'
+      responses:
+        '201':
+          description: Professor created successfully
+    get:
+      summary: List all professors
+      operationId: getAllProfessors
+      responses:
+        '200':
+          description: A list of professors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfessorResponse'
+  /professors/{classCode}/student:
+    get:
+      summary: List all professors for a student
+      operationId: getAllProfessorsForStudent
+      parameters:
+        - in: path
+          name: classCode
+          required: true
+          schema:
+            type: string
+          description: The catalogue code of the class
+        - in: query
+          name: year
+          required: true
+          schema:
+            type: integer
+          description: The year of the class
+      responses:
+        '200':
+          description: A list of professors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfessorResponse'
+  /professors/{id}:
+    get:
+      summary: Lists classes assigned to a professor
+      operationId: getClassesForProfessor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SchoolClassResponse'
+    put:
+      summary: Update professor details
+      operationId: updateProfessor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfessorRequest'
+      responses:
+        '200':
+          description: Professor updated
+    delete:
+      summary: Remove a professor
+      operationId: deleteProfessor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Professor deleted
+
+  /professors/{professorId}/classes:
+    post:
+      summary: Link professor to the given classes
+      operationId: assignProfessorToClasses
+      parameters:
+        - in: path
+          name: professorId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        description: List of class IDs to assign
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+        '200':
+          description: Professor assigned to classes
+
+  /classes:
+    post:
+      summary: Create a new class
+      operationId: createSchoolClass
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSchoolClassRequest'
+      responses:
+        '201':
+          description: Class created successfully
+
+    get:
+      summary: List all classes
+      operationId: getAllClasses
+      responses:
+        '200':
+          description: A list of classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SchoolClassResponse'
+
+  /classes/{id}:
+    get:
+      summary: Lists professors assigned to a class
+      operationId: getProfessorsForClass
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of professors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfessorResponse'
+    put:
+      summary: Edit class info
+      operationId: updateSchoolClass
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSchoolClassRequest'
+      responses:
+        '200':
+          description: SchoolClass updated
+
+    delete:
+      summary: Remove a class
+      operationId: deleteClass
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Class deleted
+
+components:
+  schemas:
+    CreateProfessorRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        disciplineCode:
+          type: string
+        professorCode:
+          type: string
+
+    UpdateProfessorRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        disciplineCode:
+          type: string
+        professorCode:
+          type: string
+
+    ProfessorResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        disciplineCode:
+          type: string
+        professorCode:
+          type: string
+
+    CreateSchoolClassRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        classCode:
+          type: string
+        classYear:
+          type: integer
+
+    UpdateSchoolClassRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        classCode:
+          type: string
+        classYear:
+          type: integer
+
+    SchoolClassResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        classCode:
+          type: string
+        classYear:
+          type: integer

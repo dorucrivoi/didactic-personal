@@ -1,0 +1,114 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springdoc.openapi-gradle-plugin' version "1.9.0"
+	id 'org.openapi.generator' version '7.6.0'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+// ======== DEPENDENCIES ========
+dependencies {
+	// Spring Boot Web + JPA (exclude default Logback)
+	implementation('org.springframework.boot:spring-boot-starter-web') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+
+	// Log4j2 starter (handles SLF4J bridge)
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+	// Validation
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.5.Final'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Flyway DB
+	implementation 'org.flywaydb:flyway-core'
+
+	// OpenAPI / Swagger
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.21'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+
+	// MapStruct & Lombok
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	// Envers for entity auditing
+	implementation 'org.springframework.data:spring-data-envers'
+	// Spring actuator for health,info,metrics
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// H2 DB for testing
+	runtimeOnly 'com.h2database:h2'
+
+	// Testing
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+
+	}
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// ======== FIX LOGGING CONFLICTS ========
+configurations.all {
+	// Prevent log4j-to-slf4j conflicts
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+	exclude group: 'ch.qos.logback', module: 'logback-classic'
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+}
+
+// ======== OPENAPI GENERATION ========
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$rootDir/src/main/resources/static/openapi/didactic_personal.yaml".toString()
+	outputDir = layout.buildDirectory.dir("generated").get().asFile.path
+	apiPackage = "com.example.api"
+	modelPackage = "com.example.model"
+	configOptions = [
+			interfaceOnly: "true",
+			skipDefaultInterface: "false",
+			useJakartaEe: "true",
+			useBeanValidation: "false"
+	]
+}
+
+tasks.named("compileJava") {
+	dependsOn tasks.named("openApiGenerate")
+}
+
+tasks.openApiValidate {
+	inputSpec.set("$rootDir/src/main/resources/static/openapi/didactic_personal.yaml")
+}
+
+// Include generated sources
+sourceSets {
+	main {
+		java {
+			srcDir "$buildDir/generated/src/main/java"
+		}
+	}
+}
+
+// Use JUnit Platform
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Microservices Use Cases and Actors</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        h2 { color: #006699; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f8f8f8; }
+        section { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+<h1>Microservices Use Cases, Actors, and Actions</h1>
+
+<section>
+    <h2>Actors</h2>
+    <table>
+        <tr><th>Actor</th><th>Description</th></tr>
+        <tr><td>Teacher</td><td>A teacher who assigns grades and manages classes</td></tr>
+        <tr><td>Student</td><td>A student who views their own grades and classes</td></tr>
+        <tr><td>Administrator</td><td>Manages professors, student, disciplines, and system configurations</td></tr>
+    </table>
+</section>
+
+<section>
+    <h2>Use Cases</h2>
+    <h3>DidacticPersonal Microservice</h3>
+    <table>
+        <tr><th>Use Case</th><th>Actor</th><th>Description</th></tr>
+        <tr><td>Create/Edit/Delete Professor</td><td>Administrator</td><td>Manage teaching personnel</td></tr>
+        <tr><td>Assign Professor to Class</td><td>Administrator</td><td>Link professors to classes they teach</td></tr>
+        <tr><td>Create/Edit/Delete Class</td><td>Administrator</td><td>Create or update classroom groups</td></tr>
+        <tr><td>View Professor's Classes</td><td>Professor</td><td>See classes assigned to a professor</td></tr>
+        <tr><td>View Professors in a class</td><td>Professor</td><td>See professors assigned to a class</td></tr>
+    </table>
+
+    <h3>Catalogue Microservice</h3>
+    <table>
+        <tr><th>Use Case</th><th>Actor</th><th>Description</th></tr>
+        <tr><td>Register New Student</td><td>Administrator</td><td>Add a new student to the system</td></tr>
+        <tr><td>View Student’s Notes</td><td>Pupil</td><td>Check own grades and discipline performance</td></tr>
+        <tr><td>Add/Edit Notes</td><td>Professor</td><td>Grade students in specific discipline</td></tr>
+        <tr><td>Get professors for student</td><td>Professor</td><td>View list of professors assigned to a class</td></tr>
+        <tr><td>Manage disciplines</td><td>Administrator</td><td>Create/edit the disciplines</td></tr>
+    </table>
+</section>
+
+<section>
+    <h2>Actions (API Endpoints)</h2>
+    <h3>DidacticPersonal Microservice</h3>
+    <table>
+        <tr><th>Action</th><th>Method</th><th>Path</th><th>Description</th></tr>
+        <tr><td>Add Professor</td><td>POST</td><td>/professors</td><td>Add a new professor</td></tr>
+        <tr><td>Update Professor</td><td>PUT</td><td>/professors/{id}</td><td>Update professor details</td></tr>
+        <tr><td>Delete Professor</td><td>DELETE</td><td>/professors/{id}</td><td>Remove a professor</td></tr>
+        <tr><td>Get Professors</td><td>GET</td><td>/professors</td><td>List all professors</td></tr>
+        <tr><td>Add Class</td><td>POST</td><td>/classes</td><td>Create a new class</td></tr>
+        <tr><td>Update Class</td><td>PUT</td><td>/classes/{id}</td><td>Edit class info</td></tr>
+        <tr><td>Delete Class</td><td>DELETE</td><td>/classes/{id}</td><td>Remove a class</td></tr>
+        <tr><td>View Professor's Classes</td><td>GET</td><td>/professors/{id}</td><td>See classes assigned to a professor</td></tr>
+        <tr><td>View Professors in a class</td><td>GET</td><td>/classes/{classCode}</td><td>See professors assigned to a class</td></tr>
+        <tr><td>Assign Professor to Class</td><td>POST</td><td>/professors/{professorId}/classes</td><td>Link professor to the given classes</td></tr>
+    </table>
+
+    <h3>Catalogue Microservice</h3>
+    <table>
+        <tr><th>Action</th><th>Method</th><th>Path</th><th>Description</th></tr>
+        <tr><td>Register Pupil</td><td>POST</td><td>/students</td><td>Add new student</td></tr>
+        <tr><td>Get Pupil Details</td><td>GET</td><td>/students/{id}</td><td>View student info</td></tr>
+        <tr><td>Add Note</td><td>POST</td><td>/grades</td><td>Add a grade for a student</td></tr>
+        <tr><td>Update Note</td><td>PUT</td><td>/grades/{id}</td><td>Edit a note</td></tr>
+        <tr><td>Get Notes for student</td><td>GET</td><td>/students/{id}/notes</td><td>List grades for a pupil</td></tr>
+        <tr><td>List students in class</td><td>GET</td><td>/classes/{id}/students</td><td>View students of a class</td></tr>
+        <tr><td>Manage Disciplines</td><td>POST</td><td>/disciplines</td><td>Create/edit disciplines</td></tr>
+        <tr><td>Get professors for student</td><td>GET</td><td>/students/{classCode}/professors</td><td>List professors for a student</td></tr>
+    </table>
+</section>
+</body>
+</html>
