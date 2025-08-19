@@ -32,13 +32,7 @@ public class SchoolClassController implements ClassesApi {
     }
 
     @Override
-    public ResponseEntity<List<SchoolClassResponse>> getAllClasses() {
-        List<SchoolClassResponse> classes  = schoolMapper.toSchoolClassResponseList(manageSchoolClass.findAll());
-        return ResponseEntity.ok(classes);
-    }
-
-    @Override
-    public ResponseEntity<Void> createSchoolClass(CreateSchoolClassRequest createSchoolClassRequest) {
+    public ResponseEntity<Void> createSchoolClass (CreateSchoolClassRequest createSchoolClassRequest) {
         manageSchoolClass.save(schoolMapper.toDTO(createSchoolClassRequest));
         logger.info("Create school class from controller");
         return ResponseEntity.ok().build();
@@ -49,6 +43,12 @@ public class SchoolClassController implements ClassesApi {
         manageSchoolClass.update(classId, schoolMapper.toDTO(createSchoolClassRequest));
         logger.info("Update school class from controller");
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<SchoolClassResponse>> getAllClasses() {
+        List<SchoolClassResponse> classes  = schoolMapper.toSchoolClassResponseList(manageSchoolClass.findAll());
+        return ResponseEntity.ok(classes);
     }
 
     @Override

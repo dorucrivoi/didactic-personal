@@ -1,10 +1,13 @@
 package com.example.dp.administration.service;
 
 import com.example.dp.administration.mapper.SchoolMapper;
+import com.example.dp.events.SchoolClassCreatedEvent;
+import com.example.dp.events.SchoolClassProducer;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.administration.dtos.SchoolClassDTO;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +23,21 @@ public class ManageSchoolClass {
     private static final Logger logger = LogManager.getLogger(ManageSchoolClass.class);
 
     private final SchoolClassService schoolClassService;
+    private final SchoolClassProducer schoolClassProducer;
     private final SchoolMapper schoolMapper;
 
     @Autowired
-    public ManageSchoolClass(SchoolClassService schoolClassService, SchoolMapper schoolMapper) {
+    public ManageSchoolClass(SchoolClassService schoolClassService, SchoolClassProducer schoolClassProducer,
+                             SchoolMapper schoolMapper) {
         this.schoolClassService = schoolClassService;
+        this.schoolClassProducer = schoolClassProducer;
         this.schoolMapper = schoolMapper;
     }
 
     @Transactional
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
         logger.info("Creating school class with code {}", schoolClassDTO.getClassCode());
+        schoolClassProducer.sendClassCreated(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear());
         return schoolClassService.saveOrUpdate(schoolMapper.toCreateEntity(schoolClassDTO));
     }
 
