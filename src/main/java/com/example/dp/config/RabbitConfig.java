@@ -10,23 +10,11 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 @Configuration
 public class RabbitConfig {
 
-    public static final String EXCHANGE = "school.exchange";
-    public static final String ROUTING_KEY = "school.class.created";
     public static final String QUEUE = "school-class-created-queue";
 
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE);
-    }
-
-    @Bean
     public Queue queue() {
-        return new Queue(QUEUE, true);
-    }
-
-    @Bean
-    public Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        return QueueBuilder.durable(QUEUE).build();
     }
 
     @Bean
@@ -38,6 +26,19 @@ public class RabbitConfig {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(jsonMessageConverter());
+        template.setMandatory(true);
+
+        // ConfirmCallback: broker acks/nacks message persistence
+        template.setConfirmCallback((correlationData, ack, cause) -> {
+            if (ack) {
+                //logger
+                System.out.println("✅ Message confirmed by broker: " + correlationData);
+            } else {
+                //logger
+                System.err.println("❌ Message NOT confirmed: " + cause);
+            }
+        });
+
         return template;
     }
 }

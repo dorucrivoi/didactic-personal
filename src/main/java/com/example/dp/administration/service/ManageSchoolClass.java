@@ -7,7 +7,6 @@ import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.administration.dtos.SchoolClassDTO;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +36,13 @@ public class ManageSchoolClass {
     @Transactional
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
         logger.info("Creating school class with code {}", schoolClassDTO.getClassCode());
-        schoolClassProducer.sendClassCreated(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear());
-        return schoolClassService.saveOrUpdate(schoolMapper.toCreateEntity(schoolClassDTO));
+        //daca salveaza in baza de date nu-i bun
+        // de spus tot contextul pentru a trata cazul in care rabbitMQ nu consuma messajul dupa validarea consumarii mesajului
+        // trebuie creata clasa
+        //document de technical decision
+        SchoolClass schoolClass = schoolClassService.saveOrUpdate(schoolMapper.toCreateEntity(schoolClassDTO));
+        schoolClassProducer.sendClassCreated(new SchoolClassCreatedEvent(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear()));
+        return schoolClass;
     }
 
     @Transactional
