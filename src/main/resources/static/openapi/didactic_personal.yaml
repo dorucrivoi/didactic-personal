@@ -43,7 +43,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The catalogue code of the class
+          description: The code of the class
         - in: query
           name: year
           required: true

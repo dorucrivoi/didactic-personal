@@ -6,6 +6,10 @@ plugins {
 	id 'org.openapi.generator' version '7.6.0'
 }
 
+springBoot {
+	buildInfo()
+}
+
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
