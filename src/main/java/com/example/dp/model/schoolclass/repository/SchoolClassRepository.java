@@ -12,7 +12,7 @@ import java.util.Set;
 @Repository
 public interface SchoolClassRepository extends JpaRepository<SchoolClass, Long> {
 
-   // @Query("SELECT c.professors FROM SchoolClass c WHERE c.id = :classId")
+    boolean existsByClassCodeAndClassYear(String classCode, Integer classYear);
    @Query(value = """
         SELECT p.* 
         FROM PROFESSOR p 

@@ -33,25 +33,25 @@ public class ManageSchoolClass {
         this.schoolMapper = schoolMapper;
     }
 
+    //TODO
     @Transactional
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
-        logger.info("Creating school class with code {}", schoolClassDTO.getClassCode());
+
         //daca salveaza in baza de date nu-i bun
         // de spus tot contextul pentru a trata cazul in care rabbitMQ nu consuma messajul dupa validarea consumarii mesajului
         // trebuie creata clasa
         //document de technical decision
-        SchoolClass schoolClass = schoolClassService.saveOrUpdate(schoolMapper.toCreateEntity(schoolClassDTO));
+        SchoolClass schoolClass = schoolClassService.createSchoolClass(schoolMapper.toCreateEntity(schoolClassDTO));
         schoolClassProducer.sendClassCreated(new SchoolClassCreatedEvent(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear()));
+        logger.info("Created school class with code {}", schoolClassDTO.getClassCode());
         return schoolClass;
     }
 
     @Transactional
     public SchoolClass update(Integer classId, SchoolClassDTO schoolClassDTO) {
-        logger.info("Updating school class with code {}", schoolClassDTO.getClassCode());
-        schoolClassService.findById(classId.longValue())
-                .orElseThrow(() -> new RuntimeException("School class not found"));
-        schoolClassDTO.setId(classId.longValue());
-        return schoolClassService.saveOrUpdate(schoolMapper.toUpdateEntity(schoolClassDTO));
+        SchoolClass schoolClass = schoolClassService.updateSchoolClass(classId.longValue(), schoolMapper.toUpdateEntity(schoolClassDTO));
+        logger.info("Updated school class with code {}", schoolClassDTO.getClassCode());
+        return schoolClass;
     }
 
     public List<SchoolClass> findAll() {
