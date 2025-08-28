@@ -1,7 +1,5 @@
 package com.example.dp.model.schoolclass.service;
 
-import com.example.dp.exception.SchoolClassCreatedException;
-import com.example.dp.exception.SchoolClassUpdatedException;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.model.schoolclass.repository.SchoolClassRepository;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
@@ -27,7 +25,7 @@ public class SchoolClassService {
                 schoolClass.getClassYear()
         );
         if (exists) {
-            throw new SchoolClassCreatedException("SchoolClass already exists with code " +
+            throw new SchoolClassAlreadyCreatedException("SchoolClass already exists with code " +
                     schoolClass.getClassCode() + " and year " + schoolClass.getClassYear());
         }
         return schoolClassRepository.save(schoolClass);
@@ -42,7 +40,7 @@ public class SchoolClassService {
                     return schoolClassRepository.save(existing);
                 })
                 .orElseThrow(() ->
-                        new SchoolClassUpdatedException("SchoolClass not found with id " + id));
+                        new SchoolClassNotFoundException("SchoolClass not found with id " + id));
     }
 
 
