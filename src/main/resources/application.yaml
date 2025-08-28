@@ -24,6 +24,15 @@ rabbitmq:
   port: 5672
   username: guest
   password: guest
+  connection-timeout: 5000
+  listener:
+    simple:
+      retry:
+        enabled: true
+        max-attempts: 5
+        initial-interval: 2000
+        multiplier: 2.0
+        max-interval: 10000
 
 # Logging for visibility
 logging:

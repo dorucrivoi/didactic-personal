@@ -1,4 +1,4 @@
-package com.example.dp.events;
+package com.example.dp.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,10 +33,6 @@ public class SchoolClassProducer {
     public void sendClassCreated(SchoolClassCreatedEvent event) {
         try {
             Message message = buildEventMessage(event);
-
-           // rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, message);
-
-
             rabbitTemplate.convertAndSend(
                     QUEUE,
                     message,
@@ -45,7 +41,6 @@ public class SchoolClassProducer {
                         return msg;
                     }
             );
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize SchoolClassCreatedEvent", e);
         }

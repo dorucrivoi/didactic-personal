@@ -5,6 +5,7 @@ import com.example.dp.model.schoolclass.repository.SchoolClassRepository;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

@@ -5,7 +5,7 @@ info:
   description: API for managing professors, classes, and their relationships.
 
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:8080
 
 paths:
   /professors:

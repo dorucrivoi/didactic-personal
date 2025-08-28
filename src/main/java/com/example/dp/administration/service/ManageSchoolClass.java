@@ -1,8 +1,8 @@
 package com.example.dp.administration.service;
 
 import com.example.dp.administration.mapper.SchoolMapper;
-import com.example.dp.events.SchoolClassCreatedEvent;
-import com.example.dp.events.SchoolClassProducer;
+import com.example.dp.messaging.SchoolClassCreatedEvent;
+import com.example.dp.messaging.SchoolClassProducer;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.administration.dtos.SchoolClassDTO;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
@@ -33,7 +33,7 @@ public class ManageSchoolClass {
         this.schoolMapper = schoolMapper;
     }
 
-    //TODO
+    //TODO tranzactii distribuite bd si rabbitmq
     @Transactional
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
 

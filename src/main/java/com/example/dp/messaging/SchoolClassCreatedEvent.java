@@ -1,6 +1,4 @@
-package com.example.dp.events;
-
-import java.io.Serializable;
+package com.example.dp.messaging;
 
 public class SchoolClassCreatedEvent {
 
