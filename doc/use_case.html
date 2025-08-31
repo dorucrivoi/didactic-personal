@@ -45,7 +45,7 @@
         <tr><td>View Student’s Grades</td><td>Student</td><td>Check own grades and discipline performance</td></tr>
         <tr><td>Add/Edit Grades</td><td>Professor</td><td>Grade students in specific discipline</td></tr>
         <tr><td>Get professors for student</td><td>Professor</td><td>View list of professors assigned to a class</td></tr>
-        <tr><td>Manage disciplines</td><td>Administrator</td><td>Create/edit the disciplines</td></tr>
+        <tr><td>Manage disciplines</td><td>Administrator</td><td>Create/edit/delete the disciplines</td></tr>
     </table>
 </section>
 
@@ -73,7 +73,7 @@
         <tr><td>Get Student Details</td><td>GET</td><td>/students/{id}</td><td>View student info</td></tr>
         <tr><td>Add Note</td><td>POST</td><td>/grades</td><td>Add a grade for a student</td></tr>
         <tr><td>Update Note</td><td>PUT</td><td>/grades/{id}</td><td>Edit a note</td></tr>
-        <tr><td>Get Grades for student</td><td>GET</td><td>/students/{id}/notes</td><td>List grades for a pupil</td></tr>
+        <tr><td>Get Grades for student</td><td>GET</td><td>/students/{id}/grades</td><td>List grades for a student</td></tr>
         <tr><td>List students in class</td><td>GET</td><td>/classes/{id}/students</td><td>View students of a class</td></tr>
         <tr><td>Manage Disciplines</td><td>POST</td><td>/disciplines</td><td>Create/edit disciplines</td></tr>
         <tr><td>Get professors for student</td><td>GET</td><td>/students/{classCode}/professors</td><td>List professors for a student</td></tr>
