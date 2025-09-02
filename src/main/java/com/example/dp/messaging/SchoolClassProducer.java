@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.dp.config.RabbitConfig.QUEUE;
+import static com.example.dp.config.RabbitConfig.*;
 
 @Service
 public class SchoolClassProducer {
@@ -32,7 +32,7 @@ public class SchoolClassProducer {
 
     public void sendClassCreated(SchoolClassCreatedEvent event) {
         try {
-            Message message = buildEventMessage(event);
+            Message message = buildEventMessage(event, "SchoolClassCreatedEvent");
             rabbitTemplate.convertAndSend(
                     QUEUE,
                     message,
@@ -47,7 +47,24 @@ public class SchoolClassProducer {
         logger.info(" [x] Sent event: {}", event.getClassCode());
     }
 
-    private Message buildEventMessage(SchoolClassCreatedEvent event) throws JsonProcessingException {
+    public void sendClassDeleted(SchoolClassDeletedEvent event) {
+        try {
+            Message message = buildEventMessage(event, "SchoolClassDeletedEvent");
+            rabbitTemplate.convertAndSend(
+                    QUEUE,
+                    message,
+                    msg -> {
+                        msg.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                        return msg;
+                    }
+            );
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize SchoolClassCreatedEvent", e);
+        }
+        logger.info(" [x] Sent event: {}", event.getClassCode());
+    }
+
+    private Message buildEventMessage(SchoolClassEvent event, String eventType) throws JsonProcessingException {
         Map<String, Object> payload = new HashMap<>();
         payload.put("classCode", event.getClassCode());
         payload.put("year", event.getYear());
@@ -55,6 +72,7 @@ public class SchoolClassProducer {
         String jsonMessage = objectMapper.writeValueAsString(payload);
 
         MessageProperties props = new MessageProperties();
+        props.setHeader("type", eventType);
         props.setContentType("application/json");
 
         return new Message(jsonMessage.getBytes(StandardCharsets.UTF_8), props);

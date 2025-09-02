@@ -3,6 +3,7 @@ package com.example.dp.model.schoolclass.service;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.model.schoolclass.repository.SchoolClassRepository;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
+import org.hibernate.envers.NotAudited;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +63,7 @@ public class SchoolClassService {
         return schoolClassRepository.findById(id);
     }
 
+    @NotAudited
     public void deleteById(Long id) {
         schoolClassRepository.deleteById(id);
     }

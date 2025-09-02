@@ -2,10 +2,12 @@ package com.example.dp.administration.service;
 
 import com.example.dp.administration.mapper.SchoolMapper;
 import com.example.dp.messaging.SchoolClassCreatedEvent;
+import com.example.dp.messaging.SchoolClassDeletedEvent;
 import com.example.dp.messaging.SchoolClassProducer;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.administration.dtos.SchoolClassDTO;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
+import com.example.dp.model.schoolclass.service.SchoolClassNotFoundException;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +43,7 @@ public class ManageSchoolClass {
         // de spus tot contextul pentru a trata cazul in care rabbitMQ nu consuma messajul dupa validarea consumarii mesajului
         // trebuie creata clasa
         //document de technical decision
+        // TODO single point of failure - configuration service - trebuie repornit la fiecare configurare
         SchoolClass schoolClass = schoolClassService.createSchoolClass(schoolMapper.toCreateEntity(schoolClassDTO));
         schoolClassProducer.sendClassCreated(new SchoolClassCreatedEvent(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear()));
         logger.info("Created school class with code {}", schoolClassDTO.getClassCode());
@@ -58,9 +61,13 @@ public class ManageSchoolClass {
         return schoolClassService.findAll();
     }
 
+    @Transactional
     public void deleteById(Long id) {
+        SchoolClass schoolClass = schoolClassService.findById(id)
+                .orElseThrow(() -> new SchoolClassNotFoundException("School class not found with id: " + id));
 
         schoolClassService.deleteById(id);
+        schoolClassProducer.sendClassDeleted(new SchoolClassDeletedEvent(schoolClass.getClassCode(), schoolClass.getClassYear()));
         logger.info("Deleted school class with id {}", id);
     }
 

@@ -22,9 +22,4 @@ public interface SchoolClassRepository extends JpaRepository<SchoolClass, Long> 
         """, nativeQuery = true)
     Set<Professor> findProfessorsByClassId(@Param("classId") Long classId);
 
-//    @Query("SELECT p.classes FROM Professor p WHERE p.id = :professorId")
-//    Set<SchoolClass> findClassesByProfessorId(@Param("professorId") Long professorId);
-
-//    @Query("SELECT c.professors FROM SchoolClass c WHERE c.id = :classId")
-//    Set<Professor> findProfessorsByClassId(@Param("classId") Long classId);
 }

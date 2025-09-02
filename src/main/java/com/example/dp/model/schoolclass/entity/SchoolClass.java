@@ -11,10 +11,6 @@ import org.hibernate.envers.Audited;
 import java.util.Set;
 
 @Entity(name = "SCHOOL_CLASS")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Audited
 public class SchoolClass {
     @Id
