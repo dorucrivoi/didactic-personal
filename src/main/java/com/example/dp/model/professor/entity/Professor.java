@@ -2,20 +2,13 @@ package com.example.dp.model.professor.entity;
 
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.util.Objects;
 import java.util.Set;
 
 @Entity(name="PROFESSOR")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Audited
 public class Professor {
     @Id
@@ -27,17 +20,22 @@ public class Professor {
     private String name;
     @Column(name="DISCIPLINE_CODE")
     private String disciplineCode;
-    @Column(name="PROFESSOR_CODE")
-    private String professorCode;
+    @Column(name="CODE")
+    private String code;
 
-   // @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    @ManyToMany
+//    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "CLASS_PROFESSOR",
             joinColumns = @JoinColumn(name = "PROFESSOR_ID"),
             inverseJoinColumns = @JoinColumn(name = "CLASS_ID")
     )
     private Set<SchoolClass> classes;
+
+    public void removeClass(SchoolClass schoolClass) {
+        this.classes.remove(schoolClass);
+        schoolClass.getProfessors().remove(this);
+    }
 
     public Set<SchoolClass> getClasses() {
         return classes;
@@ -71,19 +69,24 @@ public class Professor {
         this.classes = classes;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Professor professor)) return false;
-        return Objects.equals(id, professor.id) &&
-                Objects.equals(name, professor.name) &&
-                Objects.equals(disciplineCode, professor.disciplineCode) &&
-                Objects.equals(classes, professor.classes);
+        if (!(o instanceof Professor)) return false;
+        Professor other = (Professor) o;
+        return id != null && id.equals(other.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, disciplineCode, classes);
+        return Objects.hash(id);
     }
-// Getters and setters
 }

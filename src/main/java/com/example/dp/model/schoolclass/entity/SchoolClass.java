@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "SCHOOL_CLASS")
@@ -27,6 +28,11 @@ public class SchoolClass {
 
     @ManyToMany(mappedBy = "classes")
     private Set<Professor> professors;
+
+    public void removeProfessor(Professor professor) {
+        this.professors.remove(professor);
+        professor.getClasses().remove(this);
+    }
 
     public Long getId() {
         return id;
@@ -67,21 +73,18 @@ public class SchoolClass {
     public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
     }
-//    @ManyToMany
-//    @JoinTable(
-//        name = "class_professor",
-//        joinColumns = @JoinColumn(name = "class_id"),
-//        inverseJoinColumns = @JoinColumn(name = "professor_id")
-//    )
-//    private Set<Professor> professors;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "CLASS_PROFESSOR",
-//            joinColumns = @JoinColumn(name = "CLASS_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "PROFESSOR_ID")
-//    )
-//    private Set<Professor> professors;
 
-    // Getters and setters
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Professor)) return false;
+        Professor other = (Professor) o;
+        return id != null && id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

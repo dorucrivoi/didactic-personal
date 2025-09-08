@@ -14,7 +14,6 @@ import java.util.Set;
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
-//  @Query("SELECT p.classes FROM Professor p WHERE p.id = :professorId")
 @Query(value = """
         SELECT sc.* 
         FROM SCHOOL_CLASS sc 
@@ -39,14 +38,5 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long> {
   List<Professor> findAllByClassCodeAndYear(@Param("classCode") String classCode,
                                             @Param("classYear") Integer classYear);
 
-
-  //  @Query("SELECT c.professors FROM SchoolClass c WHERE c.id = :classId")
-//    @Query("SELECT p " +
-//            "FROM Professor p " +
-//             "JOIN p.classes c " +
-//             "WHERE c.id = :classId")
-//    Set<Professor> findProfessorsByClassId(@Param("classId") Long classId);
-
-//    @Query("SELECT p.classes FROM Professor p WHERE p.id = :professorId")
-//    Set<SchoolClass> findClassesByProfessorId(@Param("professorId") Long professorId);
+  boolean existsByCode(String code);
 }

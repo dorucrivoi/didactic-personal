@@ -13,6 +13,7 @@ import java.util.Set;
 public interface SchoolClassRepository extends JpaRepository<SchoolClass, Long> {
 
     boolean existsByClassCodeAndClassYear(String classCode, Integer classYear);
+
    @Query(value = """
         SELECT p.* 
         FROM PROFESSOR p 

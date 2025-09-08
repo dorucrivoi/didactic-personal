@@ -1,0 +1,17 @@
+@startuml
+actor Administrator
+participant "Didactic-Personal" as DP
+database "Didactic-Personal DB" as DPDB
+queue "RabbitMQ" as MQ
+participant "Catalogue" as CS
+database "Catalogue DB" as CSDB
+
+Administrator -> DP : Delete Class
+DP -> DPDB : Delete Class
+DP -> MQ : Publish SchoolClassDeletedEvent
+DP -> Administrator: Class Deleted
+
+MQ -> CS : Deliver SchoolClassDeletedEvent
+CS -> CSDB : Delete Catalogue and Semester
+
+@enduml

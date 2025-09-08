@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/admin")
+//@RequestMapping("/api")
 public class ProfessorController implements ProfessorsApi {
     private static final Logger logger = LoggerFactory.getLogger(ProfessorController.class);
 
@@ -82,6 +82,7 @@ public class ProfessorController implements ProfessorsApi {
     public ResponseEntity<List<ProfessorResponse>> getAllProfessorsForStudent(String classCode, Integer year){
         List<ProfessorResponse> professors = professorMapper.toProfessorResponseListFromDTOs(
                 manageProfessor.getProfessorsByClassAndYear(year, classCode));
+        logger.info("Get all professors from a class");
         return ResponseEntity.ok(professors);
     }
 }

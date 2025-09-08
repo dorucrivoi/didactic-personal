@@ -1,0 +1,17 @@
+@startuml
+actor Administrator
+participant "Didactic-Personal" as DP
+database "Didactic-Personal DB" as DPDB
+queue "RabbitMQ" as MQ
+participant "Catalogue" as CS
+database "Catalogue DB" as CSDB
+
+Administrator -> DP : Create Class
+DP -> DPDB : Persist Class
+DP -> MQ : Publish SchoolClassCreatedEvent
+DP -> Administrator: Class Created
+
+MQ -> CS : Deliver SchoolClassCreatedEvent
+CS -> CSDB : Create Catalogue and Semesters
+
+@enduml

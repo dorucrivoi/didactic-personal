@@ -3,8 +3,10 @@ package com.example.dp.administration.service;
 import com.example.dp.administration.mapper.ProfessorMapper;
 import com.example.dp.administration.dtos.ProfessorDTO;
 import com.example.dp.model.professor.entity.Professor;
+import com.example.dp.model.professor.service.ProfessorNotFoundException;
 import com.example.dp.model.professor.service.ProfessorService;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
+import com.example.dp.model.schoolclass.service.SchoolClassNotFoundException;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,15 +40,17 @@ public class ManageProfessor {
 
     @Transactional
     public Professor save(ProfessorDTO professorDto) {
-        logger.info("Creating professor with code {}", professorDto.getProfessorCode());
+        logger.info("Creating professor with code {}", professorDto.getCode());
+        validateProfessorCode(professorDto.getCode());
         return professorService.saveOrUpdate(professorMapper.toCreateEntity(professorDto));
     }
 
     @Transactional
     public Professor update(Integer professorId, ProfessorDTO professorDto) {
+        professorService.findById(professorId.longValue())
+                .orElseThrow(() -> new ProfessorNotFoundException("Professor not found"));
+        validateProfessorCode(professorDto.getCode());
         logger.info("Updating professor with id  {}", professorId);
-                professorService.findById(professorId.longValue())
-                .orElseThrow(() -> new RuntimeException("Professor not found"));
                 professorDto.setId(professorId.longValue());
         return professorService.saveOrUpdate(professorMapper.toUpdateEntity(professorDto));
     }
@@ -57,7 +61,8 @@ public class ManageProfessor {
 
     @Transactional
     public void deleteById(Long id) {
-        professorService.deleteById(id);
+//        removeProfessorFromClass(id.longValue());
+        professorService.deleteProfessor(id);
     }
 
     public Set<SchoolClass> getClassesForProfessor(Long professorId) {
@@ -67,7 +72,7 @@ public class ManageProfessor {
     @Transactional
     public void assignProfessorToClasses(Long professorId, Set<Long> classIds) {
         Professor professor = professorService.findById(professorId)
-                .orElseThrow(() -> new RuntimeException("Professor not found"));
+                .orElseThrow(() -> new ProfessorNotFoundException("Professor not found"));
 
         Set<SchoolClass> classes = new HashSet<>(schoolClassService.findAllById(classIds));
         professor.getClasses().addAll(classes);
@@ -78,5 +83,27 @@ public class ManageProfessor {
 
     public List<ProfessorDTO> getProfessorsByClassAndYear(Integer year, String catalogueCode){
       return professorMapper.toProfessorDTOList(professorService.getProfessorsByCatalogueCodeAndYear(catalogueCode, year));
+    }
+
+    private void validateProfessorCode(String code){
+        if(professorService.isProfessorByCode(code)) {
+            throw new ProfessorAlreadyExistException("Professor with this code already exist: " + code);
+        }
+    }
+
+    @Transactional
+    public void removeProfessorFromClass(Long professorId) {
+        Professor professor = professorService.findById(professorId)
+                .orElseThrow(() -> new ProfessorNotFoundException("Professor not found"));
+
+        // copy to avoid ConcurrentModificationException
+        for (SchoolClass schoolClass : new HashSet<>(professor.getClasses())) {
+            schoolClass.removeProfessor(professor);
+            if(!schoolClassService.existsById(schoolClass.getId())){
+                schoolClassService.saveSchoolClass(schoolClass);
+            }
+
+        }
+        professorService.delete(professor);
     }
 }

@@ -105,7 +105,8 @@ openApiGenerate {
 			interfaceOnly: "true",
 			skipDefaultInterface: "false",
 			useJakartaEe: "true",
-			useBeanValidation: "false"
+			useBeanValidation: "false",
+			useTags:"true"
 	]
 }
 

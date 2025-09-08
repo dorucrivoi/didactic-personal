@@ -6,11 +6,9 @@ import com.example.dp.administration.validator.ClassCodeNotValidException;
 import com.example.dp.administration.validator.Validator;
 import com.example.dp.administration.mapper.SchoolMapper;
 import com.example.dp.administration.service.ManageSchoolClass;
-import com.example.dp.common.ValidationException;
 import com.example.model.CreateSchoolClassRequest;
 import com.example.model.ProfessorResponse;
 import com.example.model.SchoolClassResponse;
-import com.example.model.UpdateSchoolClassRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+//@RequestMapping("/api/admin")
 public class SchoolClassController implements ClassesApi {
 
     private static final Logger logger = LoggerFactory.getLogger(SchoolClassController.class);
@@ -63,7 +61,7 @@ public class SchoolClassController implements ClassesApi {
         List<SchoolClassResponse> classes  = schoolMapper.toSchoolClassResponseList(manageSchoolClass.findAll());
         return ResponseEntity.ok(classes);
     }
-//TODO  cand stergem o clasa stergem si catalogul?
+
     @Override
     public ResponseEntity<Void> deleteClass(Integer id) {
         manageSchoolClass.deleteById(id.longValue());
@@ -72,9 +70,9 @@ public class SchoolClassController implements ClassesApi {
     }
 
     @Override
-    public ResponseEntity<List<ProfessorResponse>> getProfessorsForClass(Integer classId){
-        List<ProfessorResponse> professors = schoolMapper.toProfessorResponseList(manageSchoolClass.getProfessorsByClassId(classId.longValue()).stream().toList());
-        logger.info("Get professors for classId from controller {}", classId);
+    public ResponseEntity<List<ProfessorResponse>> getProfessorsForClass(Integer id){
+        List<ProfessorResponse> professors = schoolMapper.toProfessorResponseList(manageSchoolClass.getProfessorsByClassId(id.longValue()).stream().toList());
+        logger.info("Get professors for classId from controller {}", id);
         return ResponseEntity.ok(professors);
     }
 }

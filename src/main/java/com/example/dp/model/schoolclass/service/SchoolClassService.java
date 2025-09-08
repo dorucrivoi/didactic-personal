@@ -21,7 +21,7 @@ public class SchoolClassService {
         this.schoolClassRepository = repository;
     }
 
-    public SchoolClass createSchoolClass(SchoolClass schoolClass) {
+    public SchoolClass saveSchoolClass(SchoolClass schoolClass) {
         boolean exists = schoolClassRepository.existsByClassCodeAndClassYear(
                 schoolClass.getClassCode(),
                 schoolClass.getClassYear()

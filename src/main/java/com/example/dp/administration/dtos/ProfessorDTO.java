@@ -5,13 +5,13 @@ public class ProfessorDTO {
     private Long id;
     private String name;
     private String disciplineCode;
-    private String professorCode;;
+    private String code;;
 
-    public ProfessorDTO(Long id, String name, String disciplineCode, String professorCode) {
+    public ProfessorDTO(Long id, String name, String disciplineCode, String code) {
         this.id = id;
         this.name = name;
         this.disciplineCode = disciplineCode;
-        this.professorCode = professorCode;
+        this.code = code;
     }
 
     public Long getId() {
@@ -38,7 +38,7 @@ public class ProfessorDTO {
         this.name = name;
     }
 
-    public String getProfessorCode() { return professorCode; }
+    public String getCode() { return code; }
 
-    public void setProfessorCode(String professorCode) { this.professorCode = professorCode; }
+    public void setCode(String code) { this.code = code; }
 }

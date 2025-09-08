@@ -58,11 +58,12 @@
         <tr><td>Update Professor</td><td>PUT</td><td>/professors/{id}</td><td>Update professor details</td></tr>
         <tr><td>Delete Professor</td><td>DELETE</td><td>/professors/{id}</td><td>Remove a professor</td></tr>
         <tr><td>Get Professors</td><td>GET</td><td>/professors</td><td>List all professors</td></tr>
+        <tr><td>Get Professors</td><td>GET</td><td>/professors/{classCode}/student</td><td>List all professors for a class</td></tr>
         <tr><td>Add Class</td><td>POST</td><td>/classes</td><td>Create a new class</td></tr>
         <tr><td>Update Class</td><td>PUT</td><td>/classes/{id}</td><td>Edit class info</td></tr>
         <tr><td>Delete Class</td><td>DELETE</td><td>/classes/{id}</td><td>Remove a class</td></tr>
         <tr><td>View Professor's Classes</td><td>GET</td><td>/professors/{id}</td><td>See classes assigned to a professor</td></tr>
-        <tr><td>View Professors in a class</td><td>GET</td><td>/classes/{classCode}</td><td>See professors assigned to a class</td></tr>
+        <tr><td>View Professors in a class</td><td>GET</td><td>/classes/{id}</td><td>See professors assigned to a class</td></tr>
         <tr><td>Assign Professor to Class</td><td>POST</td><td>/professors/{professorId}/classes</td><td>Link professor to the given classes</td></tr>
     </table>
 

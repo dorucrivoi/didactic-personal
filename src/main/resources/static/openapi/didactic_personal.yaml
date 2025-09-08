@@ -7,9 +7,17 @@ info:
 servers:
   - url: http://localhost:8080
 
+tags:
+  - name: Professors
+    description: Operations related to Professors
+  - name: Classes
+    description: Operations related to classes
+
 paths:
-  /professors:
+  /api/admin/professors:
     post:
+      tags:
+        - Professors
       summary: Add a new professor
       operationId: createProfessor
       requestBody:
@@ -22,6 +30,8 @@ paths:
         '201':
           description: Professor created successfully
     get:
+      tags:
+        - Professors
       summary: List all professors
       operationId: getAllProfessors
       responses:
@@ -33,8 +43,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
-  /professors/{classCode}/student:
+  /api/admin/professors/{classCode}/student:
     get:
+      tags:
+        - Professors
       summary: List all professors for a student
       operationId: getAllProfessorsForStudent
       parameters:
@@ -59,8 +71,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
-  /professors/{id}:
+  /api/admin/professors/{id}:
     get:
+      tags:
+        - Professors
       summary: Lists classes assigned to a professor
       operationId: getClassesForProfessor
       parameters:
@@ -79,6 +93,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/SchoolClassResponse'
     put:
+      tags:
+        - Professors
       summary: Update professor details
       operationId: updateProfessor
       parameters:
@@ -97,6 +113,8 @@ paths:
         '200':
           description: Professor updated
     delete:
+      tags:
+        - Professors
       summary: Remove a professor
       operationId: deleteProfessor
       parameters:
@@ -109,8 +127,10 @@ paths:
         '204':
           description: Professor deleted
 
-  /professors/{professorId}/classes:
+  /api/admin/professors/{professorId}/classes:
     post:
+      tags:
+        - Professors
       summary: Link professor to the given classes
       operationId: assignProfessorToClasses
       parameters:
@@ -132,8 +152,10 @@ paths:
         '200':
           description: Professor assigned to classes
 
-  /classes:
+  /api/admin/classes:
     post:
+      tags:
+        - Classes
       summary: Create a new class
       operationId: createSchoolClass
       requestBody:
@@ -147,6 +169,8 @@ paths:
           description: Class created successfully
 
     get:
+      tags:
+        - Classes
       summary: List all classes
       operationId: getAllClasses
       responses:
@@ -159,8 +183,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/SchoolClassResponse'
 
-  /classes/{id}:
+  /api/admin/classes/{id}:
     get:
+      tags:
+        - Classes
       summary: Lists professors assigned to a class
       operationId: getProfessorsForClass
       parameters:
@@ -179,6 +205,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
     put:
+      tags:
+        - Classes
       summary: Edit class info
       operationId: updateSchoolClass
       parameters:
@@ -198,6 +226,8 @@ paths:
           description: SchoolClass updated
 
     delete:
+      tags:
+        - Classes
       summary: Remove a class
       operationId: deleteClass
       parameters:
@@ -219,7 +249,7 @@ components:
           type: string
         disciplineCode:
           type: string
-        professorCode:
+        code:
           type: string
 
     UpdateProfessorRequest:
@@ -231,7 +261,7 @@ components:
           type: string
         disciplineCode:
           type: string
-        professorCode:
+        code:
           type: string
 
     ProfessorResponse:
@@ -244,7 +274,7 @@ components:
           type: string
         disciplineCode:
           type: string
-        professorCode:
+        code:
           type: string
 
     CreateSchoolClassRequest:
