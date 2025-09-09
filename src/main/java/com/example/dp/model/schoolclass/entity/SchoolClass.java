@@ -2,12 +2,7 @@ package com.example.dp.model.schoolclass.entity;
 
 import jakarta.persistence.*;
 import com.example.dp.model.professor.entity.Professor;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.envers.Audited;
-
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,11 +23,6 @@ public class SchoolClass {
 
     @ManyToMany(mappedBy = "classes")
     private Set<Professor> professors;
-
-    public void removeProfessor(Professor professor) {
-        this.professors.remove(professor);
-        professor.getClasses().remove(this);
-    }
 
     public Long getId() {
         return id;

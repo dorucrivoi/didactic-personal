@@ -1,4 +1,4 @@
-package com.example.dp.model.professor.service;
+package com.example.dp.administration.service;
 
 import com.example.dp.common.ValidationException;
 

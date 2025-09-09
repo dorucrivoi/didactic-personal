@@ -1,8 +1,5 @@
 package com.example.dp.administration.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class SchoolClassDTO {
 
     private Long id;

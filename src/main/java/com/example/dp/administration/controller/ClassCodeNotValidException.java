@@ -1,4 +1,4 @@
-package com.example.dp.administration.validator;
+package com.example.dp.administration.controller;
 
 import com.example.dp.common.ValidationException;
 

@@ -21,7 +21,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-//@RequestMapping("/api")
 public class ProfessorController implements ProfessorsApi {
     private static final Logger logger = LoggerFactory.getLogger(ProfessorController.class);
 

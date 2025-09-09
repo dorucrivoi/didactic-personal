@@ -45,12 +45,6 @@ public class SchoolClassService {
                         new SchoolClassNotFoundException("SchoolClass not found with id " + id));
     }
 
-
-
-//    public SchoolClass saveOrUpdate(SchoolClass schoolClass) {
-//        return schoolClassRepository.save(schoolClass);
-//    }
-
     public List<SchoolClass> findAll() {
         return schoolClassRepository.findAll();
     }

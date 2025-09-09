@@ -34,17 +34,6 @@ public class ProfessorService {
         return professorRepository.findById(id);
     }
 
-    public void delete(Professor professor){
-        professorRepository.delete(professor);
-    }
-
-//    public void deleteById(Long id) {
-////        if(!getClassesForProfessor(id).isEmpty()){
-////            throw new ProfessorAssignedToClassException("Professor can't be deleted is assigned to classes");
-////        }
-//        professorRepository.deleteById(id);
-//    }
-
     public void deleteProfessor(Long id) {
         professorRepository.findById(id).ifPresent(professor -> {
             // remove professor from each class

@@ -3,7 +3,6 @@ package com.example.dp.model.professor.entity;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import jakarta.persistence.*;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +14,6 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private Long id;
-
     @Column(name="NAME")
     private String name;
     @Column(name="DISCIPLINE_CODE")
@@ -23,7 +21,6 @@ public class Professor {
     @Column(name="CODE")
     private String code;
 
-//    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "CLASS_PROFESSOR",
@@ -31,11 +28,6 @@ public class Professor {
             inverseJoinColumns = @JoinColumn(name = "CLASS_ID")
     )
     private Set<SchoolClass> classes;
-
-    public void removeClass(SchoolClass schoolClass) {
-        this.classes.remove(schoolClass);
-        schoolClass.getProfessors().remove(this);
-    }
 
     public Set<SchoolClass> getClasses() {
         return classes;

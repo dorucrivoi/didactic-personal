@@ -2,7 +2,6 @@ package com.example.dp.administration.controller;
 
 
 import com.example.api.ClassesApi;
-import com.example.dp.administration.validator.ClassCodeNotValidException;
 import com.example.dp.administration.validator.Validator;
 import com.example.dp.administration.mapper.SchoolMapper;
 import com.example.dp.administration.service.ManageSchoolClass;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api/admin")
 public class SchoolClassController implements ClassesApi {
 
     private static final Logger logger = LoggerFactory.getLogger(SchoolClassController.class);
@@ -44,17 +42,6 @@ public class SchoolClassController implements ClassesApi {
         logger.info("Create school class from controller");
         return ResponseEntity.ok().build();
     }
-//TODO cand vrem sa actualizam clasa cum procedam? mai trebuie procesul ?
-    // ce facem cu catalogul?
-//TODO te duci la documentatia de referinta -- cand nu gasesc ceva
-    // TODO diagrama de secventa doar pentru cazurile de creare clasa si preluare profesorii
-
-//    @Override
-//    public ResponseEntity<Void> updateSchoolClass(Integer classId, UpdateSchoolClassRequest createSchoolClassRequest) {
-//        manageSchoolClass.update(classId, schoolMapper.toDTO(createSchoolClassRequest));
-//        logger.info("Update school class from controller");
-//        return ResponseEntity.ok().build();
-//    }
 
     @Override
     public ResponseEntity<List<SchoolClassResponse>> getAllClasses() {

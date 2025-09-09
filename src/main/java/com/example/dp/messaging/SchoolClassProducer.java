@@ -44,7 +44,7 @@ public class SchoolClassProducer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize SchoolClassCreatedEvent", e);
         }
-        logger.info(" [x] Sent event: {}", event.getClassCode());
+        logger.info("Sent event: {}", event.getClassCode());
     }
 
     public void sendClassDeleted(SchoolClassDeletedEvent event) {
@@ -61,7 +61,7 @@ public class SchoolClassProducer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize SchoolClassCreatedEvent", e);
         }
-        logger.info(" [x] Sent event: {}", event.getClassCode());
+        logger.info("Sent event: {}", event.getClassCode());
     }
 
     private Message buildEventMessage(SchoolClassEvent event, String eventType) throws JsonProcessingException {

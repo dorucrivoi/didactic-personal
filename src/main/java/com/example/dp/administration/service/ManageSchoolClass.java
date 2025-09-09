@@ -6,7 +6,6 @@ import com.example.dp.messaging.SchoolClassDeletedEvent;
 import com.example.dp.messaging.SchoolClassProducer;
 import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.administration.dtos.SchoolClassDTO;
-import com.example.dp.model.professor.service.ProfessorAssignedToClassException;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import com.example.dp.model.schoolclass.service.SchoolClassNotFoundException;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
@@ -36,19 +35,8 @@ public class ManageSchoolClass {
         this.schoolMapper = schoolMapper;
     }
 
-    //TODO tranzactii distribuite bd si rabbitmq
-    //TODO structura proiectului model = domain model
-    //TODO decizii tehnice, create un fisier cu pasii de utilizare a aplicatiei
-    //TODO faza 1 din intellJ, faza doi cu docker
-    //TODO de scris teste pentru fiecare nivel repository, service, manager
     @Transactional
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
-
-        //daca salveaza in baza de date nu-i bun
-        // de spus tot contextul pentru a trata cazul in care rabbitMQ nu consuma messajul dupa validarea consumarii mesajului
-        // trebuie creata clasa
-        //document de technical decision
-        // TODO single point of failure - configuration service - trebuie repornit la fiecare configurare
         SchoolClass schoolClass = schoolClassService.saveSchoolClass(schoolMapper.toCreateEntity(schoolClassDTO));
         schoolClassProducer.sendClassCreated(new SchoolClassCreatedEvent(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear()));
         logger.info("Created school class with code {}", schoolClassDTO.getClassCode());
@@ -68,7 +56,6 @@ public class ManageSchoolClass {
 
     @Transactional
     public void deleteById(Long id) {
-
         SchoolClass schoolClass = schoolClassService.findById(id)
                 .orElseThrow(() -> new SchoolClassNotFoundException("School class not found with id: " + id));
         if(!schoolClassService.getProfessorsByClassId(id).isEmpty()){
