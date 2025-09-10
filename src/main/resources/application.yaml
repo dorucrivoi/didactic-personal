@@ -57,3 +57,11 @@ logging:
   level:
     root: INFO
     org.springframework.amqp: DEBUG
+
+spring doc:
+  swagger-ui:
+    url: /openapi/didactic_personal.yaml
+    disable-swagger-default-url: true
+
+
+
