@@ -4,6 +4,7 @@ Java 17+ : https://www.oracle.com/java/technologies/downloads/?utm_source=chatgp
 Docker Desktop for Windows : https://docs.docker.com/desktop/setup/install/windows-install/
 IntelliJ IDEA with: https://www.jetbrains.com/idea/download/?section=windows
 PlantUML integration : install plugin in IntellJ : Settings->Plugins-> find and select plantuml4idea
+Postman - https://learning.postman.com/docs/getting-started/installation/installation-and-updates/
 
 # 🎓 Didactic Personal & Catalogue Microservices
 
@@ -20,7 +21,6 @@ It includes:
 
 ## 📦 Project Repositories
 Clone the repositories:
-
 git clone https://github.com/dorucrivoi/didactic-personal.git
 git clone https://github.com/dorucrivoi/catalogue.git
 git clone https://github.com/dorucrivoi/didactic-config-server.git
@@ -63,6 +63,8 @@ Accessing Swagger UI, once the application is running, you can explore the REST 
 👉 http://localhost:8081/swagger-ui/index.html#/
 👉 http://localhost:8080/swagger-ui/index.html
 
+📂 **Preloaded Test Data**
+Both microservices use a data.sql file to automatically insert test data into the H2 database when the application starts.
 🗃️ **Database (H2)**
 Each service uses H2 embedded database.
 
@@ -73,9 +75,6 @@ Default credentials:
 JDBC URL: jdbc:h2:mem:testdb
 User: sa
 Password: (empty)
-
-📂 **Preloaded Test Data**
-Both microservices use a data.sql file to automatically insert test data into the H2 database when the application starts.
 
 **🔔 Example Workflows**
 1. Create a Class (Async with RabbitMQ)

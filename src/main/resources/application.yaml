@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 
@@ -9,7 +8,6 @@ spring:
     import:
       - "optional:configserver:http://localhost:8888"  # Config server override (optional)
 
-  # ===== Datasource (H2) =====
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -58,10 +56,7 @@ logging:
     root: INFO
     org.springframework.amqp: DEBUG
 
-spring doc:
+springdoc:
   swagger-ui:
     url: /openapi/didactic_personal.yaml
     disable-swagger-default-url: true
-
-
-
