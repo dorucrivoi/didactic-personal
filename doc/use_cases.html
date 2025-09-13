@@ -58,7 +58,7 @@
         <tr><td>Update Professor</td><td>PUT</td><td>/professors/{id}</td><td>Update professor details</td></tr>
         <tr><td>Delete Professor</td><td>DELETE</td><td>/professors/{id}</td><td>Remove a professor</td></tr>
         <tr><td>Get Professors</td><td>GET</td><td>/professors</td><td>List all professors</td></tr>
-        <tr><td>Get Professors</td><td>GET</td><td>/professors/{classCode}/student</td><td>List all professors for a class</td></tr>
+        <tr><td>Get Professors</td><td>GET</td><td>/professors/{classCode}/class</td><td>List all professors for a class</td></tr>
         <tr><td>Add Class</td><td>POST</td><td>/classes</td><td>Create a new class</td></tr>
         <tr><td>Update Class</td><td>PUT</td><td>/classes/{id}</td><td>Edit class info</td></tr>
         <tr><td>Delete Class</td><td>DELETE</td><td>/classes/{id}</td><td>Remove a class</td></tr>
@@ -69,6 +69,7 @@
 
     <h3>Catalogue Microservice</h3>
     <table>
+        <tr><td>Get Catalogue Details</td><td>GET</td><td>/catalogue/{classCode}</td><td>View catalogue info</td></tr>
         <tr><th>Action</th><th>Method</th><th>Path</th><th>Description</th></tr>
         <tr><td>Register Student</td><td>POST</td><td>/students</td><td>Add new student</td></tr>
         <tr><td>Get Student Details</td><td>GET</td><td>/students/{id}</td><td>View student info</td></tr>

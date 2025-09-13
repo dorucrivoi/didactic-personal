@@ -1,10 +1,11 @@
 ⚙️ Prerequisites
-To run the applications it needs to have installed the following tools:
-Java 17+ : https://www.oracle.com/java/technologies/downloads/?utm_source=chatgpt.com#jdk24-windows
-Docker Desktop for Windows : https://docs.docker.com/desktop/setup/install/windows-install/
-IntelliJ IDEA with: https://www.jetbrains.com/idea/download/?section=windows
-PlantUML integration : install plugin in IntellJ : Settings->Plugins-> find and select plantuml4idea
-Postman - https://learning.postman.com/docs/getting-started/installation/installation-and-updates/
+   To run the applications it needs to have installed the following tools:
+
+   Java 17+ : https://www.oracle.com/java/technologies/downloads/?utm_source=chatgpt.com#jdk24-windows
+   Docker Desktop for Windows : https://docs.docker.com/desktop/setup/install/windows-install/
+   IntelliJ IDEA with: https://www.jetbrains.com/idea/download/?section=windows
+   PlantUML integration : install plugin in IntellJ : Settings->Plugins-> find and select plantuml4idea
+   Postman - https://learning.postman.com/docs/getting-started/installation/installation-and-updates/
 
 # 🎓 Didactic Personal & Catalogue Microservices
 
@@ -14,13 +15,14 @@ students, disciplines, and grades.
 It includes:
 - _Didactic-Personal Service_ (`8080`) → manages professors and classes
 - _Catalogue Service_ (`8081`) → manages students, grades, and disciplines
-- _Config Server_ → provides configuration from a Git repository
+- _Config Server_ (`8888`)→ provides configuration from a Git repository
 - _RabbitMQ_ (via Docker) → asynchronous communication between services
 - _H2 Database_ → embedded storage for easy testing
 - _PlantUML Plugin in IntelliJ_ → visualize diagrams from `.puml` files
 
 ## 📦 Project Repositories
 Clone the repositories:
+
 git clone https://github.com/dorucrivoi/didactic-personal.git
 git clone https://github.com/dorucrivoi/catalogue.git
 git clone https://github.com/dorucrivoi/didactic-config-server.git
@@ -37,23 +39,23 @@ Password: guest
 Start the Config Server :
 
 cd didactic-config-server
-gradlew clean build
+./gradlew clean build
 gradlew bootRun
 
 🚀 **Running the Microservices**
 _Build all projects_
 From each root folder:
 
-gradlew clean build
+./gradlew clean build
 
 **Run** Didactic Personal
 cd didactic-personal
-gradlew bootRun
+./gradlew bootRun
 Runs on port 8080.
 
 **Run** Catalogue
 cd catalogue
-gradlew bootRun
+./gradlew bootRun
 Runs on port 8081.
 
 📖 **API Documentation (Swagger UI)**
@@ -81,8 +83,8 @@ Password: (empty)
    POST http://localhost:8080/api/admin/classes
    Content-Type: application/json
 {
-"name": "Class 12C",
-"classCode": "12C",
+"name": "Class 9C",
+"classCode": "9C",
 "classYear": 2025
 }
 _Sends event → RabbitMQ

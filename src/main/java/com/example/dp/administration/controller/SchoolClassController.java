@@ -57,7 +57,7 @@ public class SchoolClassController implements ClassesApi {
     }
 
     @Override
-    public ResponseEntity<List<ProfessorResponse>> getProfessorsForClass(Integer id){
+    public ResponseEntity<List<ProfessorResponse>> getProfessorsForClassId(Integer id){
         List<ProfessorResponse> professors = schoolMapper.toProfessorResponseList(manageSchoolClass.getProfessorsByClassId(id.longValue()).stream().toList());
         logger.info("Get professors for classId from controller {}", id);
         return ResponseEntity.ok(professors);

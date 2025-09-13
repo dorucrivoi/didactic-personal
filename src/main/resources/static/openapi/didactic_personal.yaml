@@ -43,12 +43,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
-  /api/admin/professors/{classCode}/student:
+  /api/admin/professors/{classCode}/class:
     get:
       tags:
         - Professors
-      summary: List all professors for a student
-      operationId: getAllProfessorsForStudent
+      summary: List all professors for a class
+      operationId: getProfessorsForClassCode
       parameters:
         - in: path
           name: classCode
@@ -188,7 +188,7 @@ paths:
       tags:
         - Classes
       summary: Lists professors assigned to a class
-      operationId: getProfessorsForClass
+      operationId: getProfessorsForClassId
       parameters:
         - in: path
           name: id

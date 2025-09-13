@@ -78,7 +78,7 @@ public class ProfessorController implements ProfessorsApi {
     }
 
     @Override
-    public ResponseEntity<List<ProfessorResponse>> getAllProfessorsForStudent(String classCode, Integer year){
+    public ResponseEntity<List<ProfessorResponse>> getProfessorsForClassCode(String classCode, Integer year){
         List<ProfessorResponse> professors = professorMapper.toProfessorResponseListFromDTOs(
                 manageProfessor.getProfessorsByClassAndYear(year, classCode));
         logger.info("Get all professors from a class");

@@ -24,7 +24,6 @@ public class ProfessorsServiceTests {
     @InjectMocks
     private ProfessorService professorService;
 
-    // --- saveOrUpdate ---
     @Test
     void should_save_professor_when_saveOrUpdate_is_executed() {
         Professor professor = new Professor();
@@ -47,7 +46,6 @@ public class ProfessorsServiceTests {
         verify(professorRepository).save(professor);
     }
 
-    // --- findAll ---
     @Test
     void should_return_all_professors_when_executing_findAll() {
         List<Professor> professors = List.of(new Professor());
@@ -68,7 +66,6 @@ public class ProfessorsServiceTests {
         assertThat(result).isEmpty();
     }
 
-    // --- deleteProfessor ---
     @Test
     void should_remove_professor_from_classes_and_then_delete_Professor() {
         Professor professor = new Professor();
@@ -93,7 +90,6 @@ public class ProfessorsServiceTests {
         verify(professorRepository, never()).delete(any());
     }
 
-    // --- existsById ---
     @Test
     void should_return_true_if_exists() {
         when(professorRepository.existsById(1L)).thenReturn(true);
@@ -112,7 +108,6 @@ public class ProfessorsServiceTests {
         assertThat(result).isFalse();
     }
 
-    // --- existsByCode ---
     @Test
     void should_return_true_if_professor_exists_by_code() {
         when(professorRepository.existsByCode("ABC")).thenReturn(true);
@@ -131,7 +126,6 @@ public class ProfessorsServiceTests {
         assertThat(result).isFalse();
     }
 
-    // --- getClassesForProfessor ---
     @Test
     void retuns_all_classes_for_professor_by_id() {
         Set<SchoolClass> classes = Set.of(new SchoolClass());
@@ -151,7 +145,6 @@ public class ProfessorsServiceTests {
         assertThat(result).isEmpty();
     }
 
-    // --- getProfessorsByCatalogueCodeAndYear ---
     @Test
     void returns_professors_for_catalogueCode_and_year_() {
         List<Professor> professors = List.of(new Professor());
