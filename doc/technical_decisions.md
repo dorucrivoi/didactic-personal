@@ -71,12 +71,12 @@ and coordinate the execution of the corresponding use cases, thereby maintaining
   
 
 **API**
-For the management of the APIs, the OpenAPI framework was adopted. This approach provides a single point of definition through the didactic-personal.yaml 
+    -- For the management of the APIs, the OpenAPI framework was adopted. This approach provides a single point of definition through the didactic-personal.yaml 
 specification, from which the corresponding interfaces are generated and subsequently integrated with the controllers.
 The implementation of each API strictly follows the defined use cases and is aligned with the responsibilities of the corresponding actors.
 Specifically, APIs under the /admin path are exposed exclusively to administrators, those under the /professors path are dedicated to professors, 
 and the /students path is reserved for students.
-The use of OpenAPI was chosen because it ensures consistency across services, enables automatic generation of interfaces and documentation, 
+   -- The use of OpenAPI was chosen because it ensures consistency across services, enables automatic generation of interfaces and documentation, 
 improves communication between developers and stakeholders by providing a clear and human-readable API contract.
 
 **How SOLID Principles Are Applied**

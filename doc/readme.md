@@ -1,11 +1,36 @@
-⚙️ Prerequisites
-   To run the applications it needs to have installed the following tools:
+⚙️ **Prerequisites**
 
-   Java 17+ : https://www.oracle.com/java/technologies/downloads/?utm_source=chatgpt.com#jdk24-windows
-   Docker Desktop for Windows : https://docs.docker.com/desktop/setup/install/windows-install/
-   IntelliJ IDEA with: https://www.jetbrains.com/idea/download/?section=windows
-   PlantUML integration : install plugin in IntellJ : Settings->Plugins-> find and select plantuml4idea
-   Postman - https://learning.postman.com/docs/getting-started/installation/installation-and-updates/
+To run the applications, the following tools must be installed:
+
+- **Java 17+**  
+  [Download here](https://www.oracle.com/java/technologies/downloads/?utm_source=chatgpt.com#jdk24-windows)
+- **Docker Desktop for Windows**  
+  [Installation guide](https://docs.docker.com/desktop/setup/install/windows-install/)
+- **IntelliJ IDEA**  
+  [Download here](https://www.jetbrains.com/idea/download/?section=windows)
+- **PlantUML integration**  
+  Install plugin in IntelliJ: `Settings -> Plugins -> find and select plantuml4idea`
+- **Postman**  
+  [Installation guide](https://learning.postman.com/docs/getting-started/installation/installation-and-updates/)
+
+
+**Logging Configuration**
+This project uses Log4j2 for logging. Logging is configured to work safely on Windows, macOS, and Linux, with both console output 
+and rolling file support.
+- **Features**
+
+   - **Console Logging**
+      - Logs are printed to the console for easy monitoring during development.
+
+   - **Rolling File Logging**
+      - Logs are written to a file `logs/application.log` and automatically rotated:
+         - Rotates daily or when the file exceeds 10 MB.
+         - Keeps the last 10 archived logs; old logs are deleted automatically.
+         - Archived logs are stored as `logs/archive/application-YYYY-MM-DD-HH-MM.log.gz`.
+
+   - **Cross-Platform Compatible**
+      - File paths use forward slashes (`/`) to work on Windows, macOS, and Linux.
+      - Uses `RollingRandomAccessFile` appender to prevent file locking issues on Windows.
 
 # 🎓 Didactic Personal & Catalogue Microservices
 
@@ -41,6 +66,13 @@ Start the Config Server :
 cd didactic-config-server
 ./gradlew clean build
 gradlew bootRun
+
+ -- Starts the Config Server on port 8888.
+Serves configuration from a Git repository: https://github.com/dorucrivoi/didactic-config-repo.
+Looks in subdirectories: catalogue and didactic-personal. Uses the main branch by default. To test the application, use the url's:
+  * http://localhost:8888/actuator/health 
+  * http://localhost:8888/catalogue/default/main
+  * http://localhost:8888/didactic-personal/default
 
 🚀 **Running the Microservices**
 _Build all projects_
@@ -89,6 +121,9 @@ Password: (empty)
 }
 _Sends event → RabbitMQ
 Catalogue consumes → creates catalogue + semesters_
+ To verify the creation of catalogue, you have to use this API:
+ 
+  GET localhost:8081/api/admin/catalogue/9C?year=2025
 
 2. Remove a Class
    DELETE http://localhost:8080/api/admin/classes/{id}

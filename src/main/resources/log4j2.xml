@@ -8,7 +8,7 @@
         <!-- Rolling File Appender -->
         <RollingFile name="RollingFileLogger"
                      fileName="logs/application.log"
-                     filePattern="logs/archive/application-%d{yyyy-MM-dd-HH-mm}.log.gz">
+                     filePattern="logs/archive/application-%d{yyyy-MM-dd-HH-mm}.log.gz" append="true">
             <PatternLayout>
                 <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} - %msg%n</Pattern>
             </PatternLayout>

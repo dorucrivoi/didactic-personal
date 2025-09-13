@@ -24,8 +24,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: true          # optional, can keep
     properties:
+      hibernate:
+        format_sql: false
       org.hibernate.envers.audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
       org.hibernate.envers.audit_strategy_validity_end_rev_field_name: revend
       org.hibernate.envers.audit_strategy_validity_store_revend_timestamp: true
@@ -55,6 +57,8 @@ logging:
   level:
     root: INFO
     org.springframework.amqp: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
 
 springdoc:
   swagger-ui:
