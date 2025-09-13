@@ -20,8 +20,8 @@
     <h2>Actors</h2>
     <table>
         <tr><th>Actors</th><th>Description</th></tr>
-        <tr><td>Teacher</td><td>A teacher who assigns grades and manages classes</td></tr>
-        <tr><td>Student</td><td>A student who views their own grades and classes</td></tr>
+        <tr><td>Professor</td><td>A professor who assigns grades and manages classes</td></tr>
+        <tr><td>Student</td><td>A student who views their own grades and professors</td></tr>
         <tr><td>Administrator</td><td>Manages professors, student, disciplines, and system configurations</td></tr>
     </table>
 </section>
@@ -62,8 +62,8 @@
         <tr><td>Add Class</td><td>POST</td><td>/classes</td><td>Create a new class</td></tr>
         <tr><td>Update Class</td><td>PUT</td><td>/classes/{id}</td><td>Edit class info</td></tr>
         <tr><td>Delete Class</td><td>DELETE</td><td>/classes/{id}</td><td>Remove a class</td></tr>
-        <tr><td>View Professor's Classes</td><td>GET</td><td>/professors/{id}</td><td>See classes assigned to a professor</td></tr>
-        <tr><td>View Professors in a class</td><td>GET</td><td>/classes/{id}</td><td>See professors assigned to a class</td></tr>
+        <tr><td>View Professor</td><td>GET</td><td>/professors/{id}</td><td>See a professor</td></tr>
+        <tr><td>View Professors in a class</td><td>GET</td><td>/classes/{id}/professors</td><td>See professors assigned to a class</td></tr>
         <tr><td>Assign Professor to Class</td><td>POST</td><td>/professors/{professorId}/classes</td><td>Link professor to the given classes</td></tr>
     </table>
 

@@ -24,7 +24,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true          # optional, can keep
+    show-sql: false          # optional, can keep
     properties:
       hibernate:
         format_sql: false

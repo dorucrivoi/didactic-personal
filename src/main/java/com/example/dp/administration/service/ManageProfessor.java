@@ -62,6 +62,12 @@ public class ManageProfessor {
         return professorService.getClassesForProfessor(professorId);
     }
 
+    public Professor getProfessorById(Long professorId) {
+        Professor professor = professorService.findById(professorId.longValue())
+                .orElseThrow(() -> new ProfessorNotFoundException("Professor not found by id"));
+        return professor;
+    }
+
     @Transactional
     public void assignProfessorToClasses(Long professorId, Set<Long> classIds) {
         Professor professor = professorService.findById(professorId)
@@ -74,8 +80,8 @@ public class ManageProfessor {
         logger.info("Assigned professor to a class {}", professorId);
     }
 
-    public List<ProfessorDTO> getProfessorsByClassAndYear(Integer year, String catalogueCode) {
-        return professorMapper.toProfessorDTOList(professorService.getProfessorsByCatalogueCodeAndYear(catalogueCode, year));
+    public List<ProfessorDTO> getProfessorsByClassAndYear(String classCode, Integer year) {
+        return professorMapper.toProfessorDTOList(professorService.getProfessorsByClassCodeAndYear(classCode, year));
     }
 
     private void validateProfessorCode(String code) {

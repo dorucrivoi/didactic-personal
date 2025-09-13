@@ -75,8 +75,8 @@ paths:
     get:
       tags:
         - Professors
-      summary: Lists classes assigned to a professor
-      operationId: getClassesForProfessor
+      summary: Get a professor by Id
+      operationId: getProfessorById
       parameters:
         - in: path
           name: id
@@ -85,13 +85,11 @@ paths:
             type: integer
       responses:
         '200':
-          description: A list of classes
+          description: Return a professor.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SchoolClassResponse'
+                  $ref: '#/components/schemas/ProfessorResponse'
     put:
       tags:
         - Professors
@@ -183,7 +181,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SchoolClassResponse'
 
-  /api/admin/classes/{id}:
+  /api/admin/classes/{id}/professors:
     get:
       tags:
         - Classes
@@ -311,3 +309,4 @@ components:
           type: string
         classYear:
           type: integer
+

@@ -149,10 +149,10 @@ public class ManageProfessorTest {
         List<Professor> professors = List.of(professor);
         List<ProfessorDTO> dtos = List.of(professorDto);
 
-        when(professorService.getProfessorsByCatalogueCodeAndYear("11B", 2025)).thenReturn(professors);
+        when(professorService.getProfessorsByClassCodeAndYear("11B", 2025)).thenReturn(professors);
         when(professorMapper.toProfessorDTOList(professors)).thenReturn(dtos);
 
-        List<ProfessorDTO> result = manageProfessor.getProfessorsByClassAndYear(2025, "11B");
+        List<ProfessorDTO> result = manageProfessor.getProfessorsByClassAndYear( "11B", 2025);
 
         assertThat(result).containsExactly(professorDto);
         verify(professorMapper).toProfessorDTOList(professors);
@@ -160,10 +160,10 @@ public class ManageProfessorTest {
 
     @Test
     void should_return_empty_list_when_no_professors_found_by_classCode_and_year() {
-        when(professorService.getProfessorsByCatalogueCodeAndYear("XX", 2099)).thenReturn(List.of());
+        when(professorService.getProfessorsByClassCodeAndYear("XX", 2099)).thenReturn(List.of());
         when(professorMapper.toProfessorDTOList(List.of())).thenReturn(List.of());
 
-        List<ProfessorDTO> result = manageProfessor.getProfessorsByClassAndYear(2099, "XX");
+        List<ProfessorDTO> result = manageProfessor.getProfessorsByClassAndYear("XX",2099 );
 
         assertThat(result).isEmpty();
         verify(professorMapper).toProfessorDTOList(List.of());

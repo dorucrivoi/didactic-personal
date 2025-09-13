@@ -1,6 +1,7 @@
 package com.example.dp.administration.mapper;
 
 import com.example.dp.administration.dtos.ProfessorDTO;
+import com.example.dp.model.professor.entity.Professor;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import com.example.model.CreateProfessorRequest;
 import com.example.model.ProfessorResponse;
@@ -32,5 +33,10 @@ public interface ProfessorMapper {
 
     List<ProfessorDTO> toProfessorDTOList(List<com.example.dp.model.professor.entity.Professor> entities);
 
+    ProfessorResponse toProfessorResponse(Professor professor);
+
     List<SchoolClassResponse> toSchoolClassResponseList(Set<SchoolClass> schoolClasses);
+
+    ProfessorResponse toProfessorResponse(ProfessorDTO dto);
+
 }

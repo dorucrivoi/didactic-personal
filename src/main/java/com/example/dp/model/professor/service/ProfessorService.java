@@ -3,7 +3,6 @@ package com.example.dp.model.professor.service;
 
 import com.example.dp.model.professor.repository.ProfessorRepository;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.dp.model.professor.entity.Professor;
@@ -54,7 +53,7 @@ public class ProfessorService {
         return professorRepository.findClassesByProfessorId(professorId);
     }
 
-    public List<Professor> getProfessorsByCatalogueCodeAndYear(String catalogueCode, Integer year){
-        return professorRepository.findAllByClassCodeAndYear(catalogueCode, year);
+    public List<Professor> getProfessorsByClassCodeAndYear(String classCode, Integer year){
+        return professorRepository.findAllByClassCodeAndYear(classCode, year);
     }
 }

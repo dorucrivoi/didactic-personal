@@ -150,7 +150,7 @@ public class ProfessorsServiceTests {
         List<Professor> professors = List.of(new Professor());
         when(professorRepository.findAllByClassCodeAndYear("CAT", 2024)).thenReturn(professors);
 
-        List<Professor> result = professorService.getProfessorsByCatalogueCodeAndYear("CAT", 2024);
+        List<Professor> result = professorService.getProfessorsByClassCodeAndYear("CAT", 2024);
 
         assertThat(result).hasSize(1);
     }
@@ -159,7 +159,7 @@ public class ProfessorsServiceTests {
     void returns_empty_list_when_no_professors_found_for_classCode_and_year() {
         when(professorRepository.findAllByClassCodeAndYear("NONE", 2030)).thenReturn(Collections.emptyList());
 
-        List<Professor> result = professorService.getProfessorsByCatalogueCodeAndYear("NONE", 2030);
+        List<Professor> result = professorService.getProfessorsByClassCodeAndYear("NONE", 2030);
 
         assertThat(result).isEmpty();
     }

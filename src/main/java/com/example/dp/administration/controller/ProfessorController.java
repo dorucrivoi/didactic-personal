@@ -6,7 +6,6 @@ import com.example.dp.administration.mapper.ProfessorMapper;
 import com.example.dp.administration.service.ManageProfessor;
 import com.example.model.CreateProfessorRequest;
 import com.example.model.ProfessorResponse;
-import com.example.model.SchoolClassResponse;
 import com.example.model.UpdateProfessorRequest;
 
 import org.slf4j.Logger;
@@ -39,7 +38,6 @@ public class ProfessorController implements ProfessorsApi {
         logger.info("Create professor from controller");
         return ResponseEntity.ok().build();
     }
-    //DTO-urile se pot exclude
 
     @Override
     public ResponseEntity<Void> updateProfessor(Integer id, UpdateProfessorRequest professor) {
@@ -55,9 +53,9 @@ public class ProfessorController implements ProfessorsApi {
     }
 
     @Override
-    public ResponseEntity<List<SchoolClassResponse>> getClassesForProfessor(Integer id) {
-        List<SchoolClassResponse> classes = professorMapper.toSchoolClassResponseList(manageProfessor.getClassesForProfessor(id.longValue()));
-        return ResponseEntity.ok(classes);
+    public ResponseEntity<ProfessorResponse> getProfessorById(Integer id) {
+        ProfessorResponse professor = professorMapper.toProfessorResponse(manageProfessor.getProfessorById(id.longValue()));
+        return ResponseEntity.ok(professor);
     }
 
     @Override
@@ -80,7 +78,7 @@ public class ProfessorController implements ProfessorsApi {
     @Override
     public ResponseEntity<List<ProfessorResponse>> getProfessorsForClassCode(String classCode, Integer year){
         List<ProfessorResponse> professors = professorMapper.toProfessorResponseListFromDTOs(
-                manageProfessor.getProfessorsByClassAndYear(year, classCode));
+                manageProfessor.getProfessorsByClassAndYear(classCode, year));
         logger.info("Get all professors from a class");
         return ResponseEntity.ok(professors);
     }
