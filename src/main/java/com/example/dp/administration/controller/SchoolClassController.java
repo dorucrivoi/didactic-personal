@@ -50,7 +50,7 @@ public class SchoolClassController implements ClassesApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteClass(Integer id) {
+    public ResponseEntity<Void> deleteSchoolClass(Integer id) {
         manageSchoolClass.deleteById(id.longValue());
         logger.info("Delete school class from controller with {}", id);
         return ResponseEntity.ok().build();

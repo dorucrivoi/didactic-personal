@@ -43,6 +43,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
+
   /api/admin/professors/{classCode}/class:
     get:
       tags:
@@ -71,6 +72,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
+
   /api/admin/professors/{id}:
     get:
       tags:
@@ -89,7 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ProfessorResponse'
+                $ref: '#/components/schemas/ProfessorResponse'
     put:
       tags:
         - Professors
@@ -165,7 +167,6 @@ paths:
       responses:
         '201':
           description: Class created successfully
-
     get:
       tags:
         - Classes
@@ -180,6 +181,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SchoolClassResponse'
+
+  /api/admin/classes/{id}:
+    put:
+      tags:
+        - Classes
+      summary: Edit class info
+      operationId: updateSchoolClass
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the class to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSchoolClassRequest'
+      responses:
+        '200':
+          description: SchoolClass updated
+    delete:
+      tags:
+        - Classes
+      summary: Remove a class
+      operationId: deleteSchoolClass
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the class to delete
+      responses:
+        '204':
+          description: SchoolClass deleted
 
   /api/admin/classes/{id}/professors:
     get:
@@ -202,41 +241,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
-    put:
-      tags:
-        - Classes
-      summary: Edit class info
-      operationId: updateSchoolClass
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateSchoolClassRequest'
-      responses:
-        '200':
-          description: SchoolClass updated
-
-    delete:
-      tags:
-        - Classes
-      summary: Remove a class
-      operationId: deleteClass
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Class deleted
 
 components:
   schemas:
@@ -309,4 +313,3 @@ components:
           type: string
         classYear:
           type: integer
-
