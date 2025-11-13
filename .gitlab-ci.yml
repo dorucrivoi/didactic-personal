@@ -1,0 +1,35 @@
+image: gradle:8.7.0-jdk17
+
+stages:
+  - build
+  - test
+  - package
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/
+
+build_job:
+  stage: build
+  script:
+    - gradle clean build --no-daemon
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+
+test_job:
+  stage: test
+  script:
+    - gradle test --no-daemon
+  dependencies:
+    - build_job
+
+package_job:
+  stage: package
+  script:
+    - echo "Packaging application for deployment"
+    - gradle assemble --no-daemon
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
