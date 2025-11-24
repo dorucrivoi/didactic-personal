@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <!-- Console Appender -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} - %msg%n" />
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} [%X{X-Correlation-Id}] - %msg%n" />
         </Console>
-        <!-- Rolling File Appender -->
         <RollingFile name="RollingFileLogger"
                      fileName="logs/application.log"
                      filePattern="logs/archive/application-%d{yyyy-MM-dd-HH-mm}.log.gz" append="true">
             <PatternLayout>
-                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} - %msg%n</Pattern>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} [%X{X-Correlation-Id}] - %msg%n</Pattern>
             </PatternLayout>
             <Policies>
-                <!-- Rotate the log when it exceeds 10MB -->
                 <SizeBasedTriggeringPolicy size="10 MB" />
-                <!-- Rotate the log daily -->
                 <TimeBasedTriggeringPolicy interval="1" />
             </Policies>
-            <!-- Keep only the last 10 files -->
             <DefaultRolloverStrategy max="10" />
         </RollingFile>
+
     </Appenders>
 
     <Loggers>
