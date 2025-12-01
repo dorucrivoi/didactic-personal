@@ -112,6 +112,10 @@ tasks.openApiValidate {
 	inputSpec.set("$rootDir/src/main/resources/static/openapi/didactic_personal.yaml")
 }
 
+tasks.jar {
+	enabled = false
+}
+
 // Include generated sources
 sourceSets {
 	main {

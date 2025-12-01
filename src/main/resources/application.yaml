@@ -4,23 +4,20 @@ server:
 spring:
   application:
     name: didactic-personal
+
   profiles:
     active:
       - database
       - rabbitmq
       - logging
       - swagger
+
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://didactic-config-server:8888
+
   cloud:
     config:
       label: main
-  eureka:
-    client:
-      healthcheck:
-        enabled: true
-      service-url:
-        defaultZone: http://localhost:8761/eureka/
 
   datasource:
     url: jdbc:h2:mem:testdb
@@ -28,44 +25,43 @@ spring:
     username: sa
     password:
 
-    h2:
-      console:
-        enabled: true
-        path: /h2-console
-        defer-datasource-initialization: true
-
-    # ===== JPA / Hibernate / Envers =====
-    jpa:
-      hibernate:
-        ddl-auto: none
-      show-sql: false          # optional, can keep
-      properties:
-        hibernate:
-          format_sql: false
-        org.hibernate.envers.audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
-        org.hibernate.envers.audit_strategy_validity_end_rev_field_name: revend
-        org.hibernate.envers.audit_strategy_validity_store_revend_timestamp: true
-        org.hibernate.envers.audit_strategy_validity_revend_timestamp_field_name: revend_tstmp
-        org.hibernate.envers.store_data_at_delete: true
-
-    flyway:
+  h2:
+    console:
       enabled: true
-      locations: classpath:db/migration
+      path: /h2-console
+      defer-datasource-initialization: true
 
-    rabbitmq:
-      host: localhost
-      port: 5672
-      username: guest
-      password: guest
-      connection-timeout: 5000
-      listener:
-        simple:
-          retry:
-            enabled: true
-            max-attempts: 5
-            initial-interval: 2000
-            multiplier: 2.0
-            max-interval: 10000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+      org.hibernate.envers.audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
+      org.hibernate.envers.audit_strategy_validity_end_rev_field_name: revend
+      org.hibernate.envers.audit_strategy_validity_store_revend_timestamp: true
+      org.hibernate.envers.audit_strategy_validity_revend_timestamp_field_name: revend_tstmp
+      org.hibernate.envers.store_data_at_delete: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 5000
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 5
+          initial-interval: 2000
+          multiplier: 2.0
+          max-interval: 10000
 
   logging:
     level:
@@ -78,3 +74,16 @@ spring:
     swagger-ui:
       url: /openapi/didactic_personal.yaml
       disable-swagger-default-url: true
+
+eureka:
+  instance:
+    hostname: didactic-personal
+    prefer-ip-address: false
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/

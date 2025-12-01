@@ -127,7 +127,7 @@ public class ProfessorsServiceTests {
     }
 
     @Test
-    void retuns_all_classes_for_professor_by_id() {
+    void returns_all_classes_for_professor_by_id() {
         Set<SchoolClass> classes = Set.of(new SchoolClass());
         when(professorRepository.findClassesByProfessorId(1L)).thenReturn(classes);
 
