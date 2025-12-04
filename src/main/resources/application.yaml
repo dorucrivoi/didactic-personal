@@ -11,6 +11,7 @@ spring:
       - rabbitmq
       - logging
       - swagger
+      - docker
 
   config:
     import: optional:configserver:http://didactic-config-server:8888
@@ -87,3 +88,21 @@ eureka:
       enabled: true
     service-url:
       defaultZone: http://discovery-server:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+
+  metrics:
+    aop:
+      enabled: true
+    tags:
+      application: ${spring.application.name}
