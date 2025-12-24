@@ -61,9 +61,7 @@ dependencies {
 	// Envers for entity auditing
 	implementation 'org.springframework.data:spring-data-envers'
 	// Micrometer
-	implementation 'io.micrometer:micrometer-core'
-	implementation 'io.micrometer:micrometer-observation'
-	implementation 'io.micrometer:micrometer-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	// Spring actuator for health,info,metrics
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.micrometer:micrometer-registry-prometheus'

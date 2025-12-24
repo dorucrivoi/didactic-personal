@@ -9,15 +9,13 @@ import com.example.dp.administration.dtos.SchoolClassDTO;
 import com.example.dp.model.schoolclass.entity.SchoolClass;
 import com.example.dp.model.schoolclass.service.SchoolClassNotFoundException;
 import com.example.dp.model.schoolclass.service.SchoolClassService;
-import io.micrometer.core.annotation.Counted;
-import io.micrometer.core.annotation.Timed;
-import io.micrometer.core.instrument.Counter;
+import io.micrometer.common.util.StringUtils;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Timer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,23 +30,30 @@ public class ManageSchoolClass {
     private final SchoolClassService schoolClassService;
     private final SchoolClassProducer schoolClassProducer;
     private final SchoolMapper schoolMapper;
-    private final MeterRegistry registry;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
     public ManageSchoolClass(SchoolClassService schoolClassService, SchoolClassProducer schoolClassProducer,
-                             SchoolMapper schoolMapper, MeterRegistry registry) {
+                             SchoolMapper schoolMapper, MeterRegistry meterRegistry) {
         this.schoolClassService = schoolClassService;
         this.schoolClassProducer = schoolClassProducer;
         this.schoolMapper = schoolMapper;
-        this.registry = registry;
+        this.meterRegistry = meterRegistry;
     }
 
     @Transactional
-    @Timed(value = "didactic.class.create.time", description = "Latency for creating a school class")
-    @Counted(value = "didactic.class.create.count", description = "Number of created school classes")
     public SchoolClass save(SchoolClassDTO schoolClassDTO) {
+        Tag titleTag = Tag.of("code", StringUtils.isEmpty(schoolClassDTO.getClassCode()) ? "all" : schoolClassDTO.getClassCode());
+        Timer.Sample timer = Timer.start(meterRegistry);
+
         SchoolClass schoolClass = schoolClassService.saveSchoolClass(schoolMapper.toCreateEntity(schoolClassDTO));
         schoolClassProducer.sendClassCreated(new SchoolClassCreatedEvent(schoolClassDTO.getClassCode(), schoolClassDTO.getClassYear()));
+
+        timer.stop(Timer.builder("create_school_class_timer")
+                .description("create class timer")
+                .tags(List.of(titleTag))
+                .register(meterRegistry));
+
         logger.info("Created school class with code {}", schoolClassDTO.getClassCode());
         return schoolClass;
     }

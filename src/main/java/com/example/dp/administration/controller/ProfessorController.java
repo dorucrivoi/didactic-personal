@@ -49,7 +49,7 @@ public class ProfessorController implements ProfessorsApi {
     @Override
     public ResponseEntity<Void> deleteProfessor(Integer id) {
         manageProfessor.deleteById(id.longValue());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
